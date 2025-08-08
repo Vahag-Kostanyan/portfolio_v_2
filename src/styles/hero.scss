@@ -1,0 +1,42 @@
+@use './variables.scss';
+@use './mixins.scss';
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: var(--color-bg);
+  overflow: hidden;
+
+  &__content {
+    text-align: center;
+    z-index: 2;
+    h1 {
+      font-size: 3rem;
+      font-family: $font-heading;
+      font-weight: 700;
+      margin-bottom: $spacing-md;
+      color: var(--color-text);
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--color-muted);
+      margin-bottom: $spacing-lg;
+    }
+  }
+
+  .scroll-indicator {
+    margin-top: $spacing-lg;
+    font-size: 1.2rem;
+    color: var(--color-accent);
+    animation: bounce 1.2s infinite alternate;
+  }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(16px); }
+} 

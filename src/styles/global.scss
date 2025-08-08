@@ -1,0 +1,53 @@
+@use './variables.scss';
+@use './mixins.scss';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/roboto/400.css';
+
+:root {
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', 'Roboto', sans-serif;
+  --color-bg: #fff;
+  --color-text: #181818;
+  --color-accent: #00ffe7;
+  --color-muted: #b0b0b0;
+  --color-card: #f7f7f7;
+}
+
+[data-theme='dark'] {
+  --color-bg: #181818;
+  --color-text: #fff;
+  --color-accent: #00ffe7;
+  --color-muted: #444;
+  --color-card: #232323;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin: 0 0 0.5em 0;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+} 

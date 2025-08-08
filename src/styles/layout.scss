@@ -1,0 +1,74 @@
+@use './variables.scss';
+@use './mixins.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+.header {
+  @include flex-center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  background: var(--color-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+
+  .site-title {
+    font-family: $font-heading;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 0.02em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav {
+    display: flex;
+    gap: $spacing-md;
+    a {
+      font-size: 1.1rem;
+      color: var(--color-text);
+      opacity: 0.7;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity $transition, color $transition;
+      text-decoration: none;
+      &:hover {
+        opacity: 1;
+        color: var(--color-accent);
+      }
+    }
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-accent);
+    transition: color $transition;
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+}
+
+.scroll-container {
+  padding-top: 80px; // Adjust to header height
+}
+
+.footer {
+  @include flex-center;
+  padding: $spacing-md;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 1rem;
+} 
