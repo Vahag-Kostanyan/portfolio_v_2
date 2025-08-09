@@ -49,7 +49,6 @@
 }
 
 .project-card:hover {
-  box-shadow: 0 30px 80px var(--shadow-color);
   transform: translateY(-15px) scale(1.02);
   border-color: var(--text-primary);
 }

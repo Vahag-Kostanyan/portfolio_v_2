@@ -16,10 +16,10 @@ const Contact = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -33,13 +33,46 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    
+
+    let tokenRes = await fetch('https://send-mail-service-eo3e.onrender.com/token', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // tells the server we are sending JSON
+      },
+      body: JSON.stringify({ "username": 'kostanyan_portfolio' }
+      )
+    });
+
+    if (!tokenRes.ok) {
+      alert('Something went wrong.');
+      return;
+    }
+
+    let token = await tokenRes.json();
+
+    let res = await fetch('https://send-mail-service-eo3e.onrender.com/send-email', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // tells the server we are sending JSON
+        "authorization": `Bearer ${await token.token}`
+      },
+      body: JSON.stringify(
+        {
+          "to": formData.email,
+          "subject": formData.name,
+          "text": formData.message,
+        }
+      )
+    });
+
+    if (!res.ok) {
+      alert('Something went wrong.');
+      return;
+    }
+
+
     setIsSubmitting(false);
     setFormData({ name: '', email: '', message: '' });
     alert('Thank you for your message! I\'ll get back to you soon.');
@@ -48,13 +81,13 @@ const Contact = () => {
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
     { name: 'LinkedIn', url: 'https://linkedin.com', icon: '💼' },
-    { name: 'Twitter', url: 'https://twitter.com', icon: '🐦' },
+    { name: 'Download CV', url: 'cv.pdf', icon: '📄' },
     { name: 'Email', url: 'mailto:vahag@example.com', icon: '✉️' }
   ];
 
   return (
     <div className="contact-container">
-      <motion.h2 
+      <motion.h2
         className="section-title"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -63,9 +96,9 @@ const Contact = () => {
       >
         Get In Touch
       </motion.h2>
-      
+
       <div className="contact-content">
-        <motion.div 
+        <motion.div
           className="contact-info"
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -74,10 +107,10 @@ const Contact = () => {
         >
           <h3>Let's work together</h3>
           <p>
-            I'm always interested in new opportunities and exciting projects. 
+            I'm always interested in new opportunities and exciting projects.
             Whether you have a question or just want to say hi, feel free to reach out!
           </p>
-          
+
           <div className="social-links">
             <h4>Connect with me</h4>
             <div className="social-grid">
@@ -92,7 +125,7 @@ const Contact = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1 }}
                 >
                   <span className="social-icon">{social.icon}</span>
                   <span>{social.name}</span>
@@ -101,8 +134,8 @@ const Contact = () => {
             </div>
           </div>
         </motion.div>
-        
-        <motion.form 
+
+        <motion.form
           className="contact-form"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, x: 30 }}
@@ -122,7 +155,7 @@ const Contact = () => {
               placeholder="Your name"
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -135,7 +168,7 @@ const Contact = () => {
               placeholder="your.email@example.com"
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="message">Message</label>
             <textarea
@@ -148,7 +181,7 @@ const Contact = () => {
               placeholder="Tell me about your project..."
             />
           </div>
-          
+
           <motion.button
             type="submit"
             className="submit-btn"

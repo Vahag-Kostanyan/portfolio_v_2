@@ -4,18 +4,26 @@ import './Experience.css';
 
 const experiences = [
   {
-    title: "Full-Stack Developer",
-    company: "EKENG CJSC",
-    period: "2022 – 2023",
-    description: "Worked on digital government projects for Armenia, including a national doctor testing platform and a civil servant registry. Improved CRM UX and developed secure Laravel + MySQL APIs.",
-    tech: ["Laravel", "PHP", "MySQL", "JavaScript","jQuery"]
+    title: "Middle Fullstack Developer",
+    company: "BetProduction · Armenia, Erevan",
+    period: "2023 – Present",
+    description: `• Integrated payment systems for secure transactions.
+• Developed and managed email and SMS notification systems.
+• Created and integrated RESTful APIs for platform communication.
+• Managed MySQL databases, optimizing performance and data integrity.
+• Built and maintained front-end features using Ember.js, enhancing user interfaces and application functionality.`,
+    tech: ["PHP", "Yii2", "MySQL", "Ember.js", "SCSS"]
   },
   {
-    title: "Backend Developer",
-    company: "BetProduction",
-    period: "2023 – Present",
-    description: "Integrated secure payment gateways, OTP verification, and email services into our online casino platform. Built dynamic user interfaces with Ember.js and developed scalable RESTful APIs using Yii2.",
-    tech: ["PHP",  "Yii2", "MySQL", "Ember.js", "Scss"]
+    title: "Junior Fullstack Developer",
+    company: "EKENG · Armenia, Erevan",
+    period: "2022 – 2023",
+    description: `Worked closely with the governor's staff on state projects, including:
+• Doctors Testing Platform: Developed a platform for assessing the knowledge of healthcare professionals.
+• CRM: Enhanced user experience and optimized workflows for government applications.
+• GIP: Played a key role in developing a comprehensive portal for state departments.
+• CSO: Developed and maintained a secure registry for managing information about civil servants.`,
+    tech: ["Laravel", "PHP", "MySQL", "JavaScript", "jQuery"]
   }
 ];
 
@@ -76,7 +84,7 @@ const Experience = () => {
                 <span className="period">{exp.period}</span>
               </div>
               <h4 className="company">{exp.company}</h4>
-              <p className="description">{exp.description}</p>
+              <p className="description" style={{ whiteSpace: 'pre-line' }}>{exp.description}</p>
               <div className="tech-stack">
                 {exp.tech.map((tech, techIndex) => (
                   <motion.span 
