@@ -11,6 +11,13 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  overscroll-behavior: contain; /* Prevent scroll chaining */
+}
+
+/* Prevent background content from being interactive while modal is open */
+body:has(.modal-overlay) {
+  overflow: hidden !important;
+  touch-action: none;
 }
 
 .modal-content {
@@ -19,9 +26,28 @@
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
-  overflow-y: auto;
   position: relative;
   border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 24px 0; /* Match border radius */
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 4px;
+  border: 2px solid var(--bg-card);
 }
 
 .modal-close {
@@ -69,11 +95,13 @@
 .modal-header {
   padding: 3rem;
   border-radius: 24px 24px 0 0;
-  position: relative;
-  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  backdrop-filter: blur(8px);
 }
 
 .modal-icon {
@@ -98,6 +126,8 @@
 
 .modal-body {
   padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .project-links {
@@ -145,13 +175,12 @@
 }
 
 .project-description,
-.project-features,
 .project-tech-stack {
   margin-bottom: 2rem;
+  margin-right: 2rem;
 }
 
 .project-description h3,
-.project-features h3,
 .project-tech-stack h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -164,34 +193,22 @@
   white-space: pre-line;
 }
 
-.project-features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.project-features li {
-  color: var(--text-secondary);
-  padding: 0.75rem 1rem;
-  background: var(--bg-tertiary);
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
+.project-features{
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.project-features li::before {
-  content: "•";
-  color: var(--text-primary);
-  font-weight: bold;
-  margin-right: 0.5rem;
-}
 
 .tech-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
+
+  .demo-button{
+    color: red !important;
+  }
 
 /* Responsive Design */
 @media (max-width: 768px) {

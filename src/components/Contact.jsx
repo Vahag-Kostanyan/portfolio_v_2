@@ -1,88 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './Contact.css';
+import { FaGithub, FaLinkedin, FaTelegram, FaCloudDownloadAlt } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
+import { FiPhoneCall } from "react-icons/fi";
+import emailjs from 'emailjs-com';
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+const Contact = ({ theme }) => {
+  const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
-  // Check if device is mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault(); // stop default form submit
     setIsSubmitting(true);
 
-    // Simulate form submission
-
-    let tokenRes = await fetch('https://send-mail-service-eo3e.onrender.com/token', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // tells the server we are sending JSON
-      },
-      body: JSON.stringify({ "username": 'kostanyan_portfolio' }
+    emailjs
+      .sendForm(
+        'service_blb0m2k', // Your EmailJS service ID
+        'template_kwjnvhh', // Your EmailJS template ID
+        form.current,       // Use the actual form reference
+        '2uUQg2XUBnx8-OmLy' // Your EmailJS public key
       )
-    });
-
-    if (!tokenRes.ok) {
-      alert('Something went wrong.');
-      return;
-    }
-
-    let token = await tokenRes.json();
-
-    let res = await fetch('https://send-mail-service-eo3e.onrender.com/send-email', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // tells the server we are sending JSON
-        "authorization": `Bearer ${await token.token}`
-      },
-      body: JSON.stringify(
-        {
-          "to": formData.email,
-          "subject": formData.name,
-          "text": formData.message,
-        }
-      )
-    });
-
-    if (!res.ok) {
-      alert('Something went wrong.');
-      return;
-    }
-
-
-    setIsSubmitting(false);
-    setFormData({ name: '', email: '', message: '' });
-    alert('Thank you for your message! I\'ll get back to you soon.');
+      .then((result) => {
+        console.log("Email sent:", result.text);
+        alert('Thank you for your message! I\'ll get back to you soon.');
+        form.current.reset(); // clear form
+      })
+      .catch((error) => {
+        console.error("Email send error:", error.text);
+        alert('Failed to send email, please try again.');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
+
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com', icon: '🐙' },
-    { name: 'LinkedIn', url: 'https://linkedin.com', icon: '💼' },
-    { name: 'Download CV', url: 'cv.pdf', icon: '📄' },
-    { name: 'Email', url: 'mailto:vahag@example.com', icon: '✉️' }
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/vahagn-kostanyan', icon: <FaLinkedin /> },
+    { name: 'GitHub', url: 'https://github.com/Vahag-Kostanyan', icon: <FaGithub /> },
+    { name: 'Email', url: 'mailto:vahag.kostanyan974@gmail.com', icon: <SiGmail /> },
+    { name: 'Phone', url: 'tel:+37498195868', icon: <FiPhoneCall /> },
+    { name: 'Telegram', url: 'https://t.me/vahagkostanyan974', icon: <FaTelegram /> },
+    { name: 'Download CV', url: 'cv.pdf', icon: <FaCloudDownloadAlt /> },
   ];
 
   return (
@@ -136,6 +96,8 @@ const Contact = () => {
         </motion.div>
 
         <motion.form
+          ref={form}
+          autoComplete="off"
           className="contact-form"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, x: 30 }}
@@ -147,10 +109,9 @@ const Contact = () => {
             <label htmlFor="name">Name</label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
+              id="from_name"
+              autoComplete="off"
+              name="from_name"
               required
               placeholder="Your name"
             />
@@ -161,9 +122,8 @@ const Contact = () => {
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              autoComplete="off"
+              name="from_email"
               required
               placeholder="your.email@example.com"
             />
@@ -174,8 +134,6 @@ const Contact = () => {
             <textarea
               id="message"
               name="message"
-              value={formData.message}
-              onChange={handleChange}
               required
               rows="5"
               placeholder="Tell me about your project..."
@@ -186,6 +144,10 @@ const Contact = () => {
             type="submit"
             className="submit-btn"
             disabled={isSubmitting}
+            style={{
+              background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+              color: theme === 'light' ? '#000' : '#fff',
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -195,6 +157,5 @@ const Contact = () => {
       </div>
     </div>
   );
-};
-
+}
 export default Contact; 

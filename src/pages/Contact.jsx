@@ -1,11 +1,15 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom';
+import Contact from '../components/Contact';
 
-const Contact = () => (
-  <section className="contact">
-    <h2>Let's build something together</h2>
-    <form className="contact__form">{/* Interactive form will go here */}</form>
-    <footer className="footer">{/* Sticky footer with social icons will go here */}</footer>
-  </section>
-);
+const ContactPage = () => {
+  const { theme } = useOutletContext();
+  
+  return (
+    <section className="contact">
+      <Contact theme={theme} />
+    </section>
+  );
+};
 
-export default Contact; 
+export default ContactPage; 
