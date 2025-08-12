@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a855f7"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Dark background circle -->
+  <circle cx="256" cy="256" r="256" fill="#1a1a1a"/>
+  
+  <!-- Letters group -->
+  <g filter="url(#glow)" transform="translate(106, 106) scale(0.9)">
+    <!-- V -->
+    <path d="
+      M 50 80
+      L 150 320
+      L 200 320
+      L 300 80
+      L 240 80
+      L 175 250
+      L 110 80
+      Z" 
+      fill="url(#gradient)"
+    />
+    
+    <!-- K -->
+    <path d="
+      M 320 80
+      L 320 320
+      L 370 320
+      L 370 220
+      L 440 320
+      L 500 320
+      L 400 180
+      L 500 80
+      L 440 80
+      L 370 160
+      L 370 80
+      Z" 
+      fill="url(#gradient)"
+    />
+  </g>
+</svg>
